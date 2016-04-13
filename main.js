@@ -17,6 +17,12 @@ AM.downloadAll(function () {
                   189, 230, // width and height of source
                   200, 200, // destination coordinates
                   95, 115); // destination width and height
+    
+    ctx.drawImage(img,
+            0, 0,  // source from sheet
+            189, 230, // width and height of source
+            300, 300, // destination coordinates
+            95, 115); // destination width and height
 
     console.log("All Done!");
 });
