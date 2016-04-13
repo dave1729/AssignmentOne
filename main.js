@@ -18,7 +18,9 @@ AM.downloadAll(function () {
                   200, 200, // destination coordinates
                   95, 115); // destination width and height
     
-    ctx.drawImage(img,
+    var img2 = AM.getAsset("./img/runningcat.png");
+    
+    ctx.drawImage(img2,
             0, 0,  // source from sheet
             189, 230, // width and height of source
             300, 300, // destination coordinates
