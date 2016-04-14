@@ -57,6 +57,23 @@ Background.prototype.draw = function () {
 Background.prototype.update = function () {
 };
 
+//no inheritance
+function Foreground(game, spritesheet) {
+    this.x = 0;
+    this.y = 0;
+    this.spritesheet = spritesheet;
+    this.game = game;
+    this.ctx = game.ctx;
+};
+
+Foreground.prototype.draw = function () {
+    this.ctx.drawImage(this.spritesheet,
+                   this.x, this.y + 30);
+};
+
+Foreground.prototype.update = function () {
+};
+
 function MushroomDude(game, spritesheet) {
     this.animation = new Animation(spritesheet, 189, 230, 5, 0.10, 14, true, 1);
     this.x = 0;
@@ -78,68 +95,23 @@ MushroomDude.prototype.update = function () {
 
 
 // inheritance 
-function Cheetah(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 512, 256, 2, 0.05, 8, true, 0.5);
-    this.speed = 350;
+function Rabbit(game, spritesheet) {
+    this.animation = new Animation(spritesheet, 3618/6, 300, 6, 0.05, 6, true, 1);
+    this.speed = 450;
     this.ctx = game.ctx;
-    Entity.call(this, game, 0, 250);
+    Entity.call(this, game, 0, -10);
 }
 
-Cheetah.prototype = new Entity();
-Cheetah.prototype.constructor = Cheetah;
+Rabbit.prototype = new Entity();
+Rabbit.prototype.constructor = Rabbit;
 
-Cheetah.prototype.update = function () {
+Rabbit.prototype.update = function () {
     this.x += this.game.clockTick * this.speed;
-    if (this.x > 800) this.x = -230;
+    if (this.x > 800) this.x = -300;
     Entity.prototype.update.call(this);
 }
 
-Cheetah.prototype.draw = function () {
-    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
-    Entity.prototype.draw.call(this);
-}
-
-//inheritance 
-//function Rabbit(game, spritesheet) {
-//	
-//    this.animation = new Animation(spritesheet, 559.5, 500, 6, 0.05, 6, true, 0.5);
-//    this.speed = 350;
-//    this.ctx = game.ctx;
-//    Entity.call(this, game, 0, 250);
-//}
-//
-//Rabbit.prototype = new Entity();
-//Rabbit.prototype.constructor = Rabbit;
-//
-//Rabbit.prototype.update = function () {
-//    this.x += this.game.clockTick * this.speed;
-//    if (this.x > 800) this.x = -230;
-//    Entity.prototype.update.call(this);
-//}
-//
-//Rabbit.prototype.draw = function () {
-//    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
-//    Entity.prototype.draw.call(this);
-//}
-
-// inheritance 
-function Guy(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 154, 215, 4, 0.15, 8, true, 0.5);
-    this.speed = 100;
-    this.ctx = game.ctx;
-    Entity.call(this, game, 0, 450);
-}
-
-Guy.prototype = new Entity();
-Guy.prototype.constructor = Guy;
-
-Guy.prototype.update = function () {
-    this.x += this.game.clockTick * this.speed;
-    if (this.x > 800) this.x = -230;
-    Entity.prototype.update.call(this);
-}
-
-Guy.prototype.draw = function () {
+Rabbit.prototype.draw = function () {
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
     Entity.prototype.draw.call(this);
 }
@@ -149,8 +121,9 @@ AM.queueDownload("./img/RobotUnicorn.png");
 AM.queueDownload("./img/rabbit.png");
 AM.queueDownload("./img/guy.jpg");
 AM.queueDownload("./img/mushroomdude.png");
-AM.queueDownload("./img/runningcat.png");
+AM.queueDownload("./img/rabbit.png");
 AM.queueDownload("./img/forrest.png");
+AM.queueDownload("./img/bushes.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -162,9 +135,10 @@ AM.downloadAll(function () {
 
     gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/forrest.png")));
     gameEngine.addEntity(new MushroomDude(gameEngine, AM.getAsset("./img/mushroomdude.png")));
-    gameEngine.addEntity(new Cheetah(gameEngine, AM.getAsset("./img/runningcat.png")));
+    gameEngine.addEntity(new Rabbit(gameEngine, AM.getAsset("./img/rabbit.png")));
     //gameEngine.addEntity(new Rabbit(gameEngine, AM.getAsset("./img/rabbit.png")));
-    gameEngine.addEntity(new Guy(gameEngine, AM.getAsset("./img/guy.jpg")));
+    //gameEngine.addEntity(new Guy(gameEngine, AM.getAsset("./img/guy.jpg")));
+    gameEngine.addEntity(new Foreground(gameEngine, AM.getAsset("./img/bushes.png")));
 
     ctx.drawImage(img,
             0, 0,  // source from sheet
