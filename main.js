@@ -74,21 +74,21 @@ Foreground.prototype.draw = function () {
 Foreground.prototype.update = function () {
 };
 
-function MushroomDude(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 189, 230, 5, 0.10, 14, true, 1);
+function Turtle(game, spritesheet) {
+    this.animation = new Animation(spritesheet, 4100/8, 353, 8, 0.17, 8, true, 0.5);
     this.x = 0;
-    this.y = 0;
-    this.speed = 100;
+    this.y = 100;
+    this.speed = 200;
     this.game = game;
     this.ctx = game.ctx;
 }
 
-MushroomDude.prototype.draw = function () {
+Turtle.prototype.draw = function () {
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
 }
 
-MushroomDude.prototype.update = function () {
-    if (this.animation.elapsedTime < this.animation.totalTime * 8 / 14)
+Turtle.prototype.update = function () {
+    if (this.animation.elapsedTime < this.animation.totalTime)
         this.x += this.game.clockTick * this.speed;
     if (this.x > 800) this.x = -230;
 }
@@ -96,8 +96,8 @@ MushroomDude.prototype.update = function () {
 
 // inheritance 
 function Rabbit(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 3618/6, 300, 6, 0.05, 6, true, 1);
-    this.speed = 450;
+    this.animation = new Animation(spritesheet, 3618/6, 300, 6, 0.03, 6, true, 1);
+    this.speed = 650;
     this.ctx = game.ctx;
     Entity.call(this, game, 0, -10);
 }
@@ -120,7 +120,7 @@ Rabbit.prototype.draw = function () {
 AM.queueDownload("./img/RobotUnicorn.png");
 AM.queueDownload("./img/rabbit.png");
 AM.queueDownload("./img/guy.jpg");
-AM.queueDownload("./img/mushroomdude.png");
+AM.queueDownload("./img/turtle_sheet.png");
 AM.queueDownload("./img/rabbit.png");
 AM.queueDownload("./img/forrest.png");
 AM.queueDownload("./img/bushes.png");
@@ -134,7 +134,7 @@ AM.downloadAll(function () {
     gameEngine.start();
 
     gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/forrest.png")));
-    gameEngine.addEntity(new MushroomDude(gameEngine, AM.getAsset("./img/mushroomdude.png")));
+    gameEngine.addEntity(new Turtle(gameEngine, AM.getAsset("./img/turtle_sheet.png")));
     gameEngine.addEntity(new Rabbit(gameEngine, AM.getAsset("./img/rabbit.png")));
     //gameEngine.addEntity(new Rabbit(gameEngine, AM.getAsset("./img/rabbit.png")));
     //gameEngine.addEntity(new Guy(gameEngine, AM.getAsset("./img/guy.jpg")));
