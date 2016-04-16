@@ -11,6 +11,7 @@ window.requestAnimFrame = (function () {
 
 function GameEngine() {
     this.entities = [];
+    this.controlEntity;
     this.ctx = null;
     this.surfaceWidth = null;
     this.surfaceHeight = null;
@@ -57,10 +58,6 @@ GameEngine.prototype.startInput = function () {
         that.click = getXandY(e);
         console.log(e);
         console.log("Left Click Event - X,Y " + e.clientX + ", " + e.clientY);
-        this.ctx.arc(e.clientX,e.clientY,25,0,2*Math.PI);
-        this.ctx.stroke();
-        this.ctx.arc(e.clientX,e.clientY,35,0,2*Math.PI);
-        this.ctx.stroke();
     }, false);
 
     this.ctx.canvas.addEventListener("contextmenu", function (e) {
@@ -84,6 +81,16 @@ GameEngine.prototype.startInput = function () {
     this.ctx.canvas.addEventListener("keydown", function (e) {
         console.log(e);
         console.log("Key Down Event - Char " + e.code + " Code " + e.keyCode);
+        if(e.which === 68) {
+        	that.ctx.arc(100,100,25,0,2*Math.PI);
+        	that.ctx.stroke();
+        	that.controlEntity.x += 20;
+        }
+        else if(e.which === 65) {
+        	that.ctx.arc(100,100,25,0,2*Math.PI);
+        	that.ctx.stroke();
+        	that.controlEntity.x -= 0;
+        }	
     }, false);
 
     this.ctx.canvas.addEventListener("keypress", function (e) {
@@ -104,6 +111,7 @@ GameEngine.prototype.startInput = function () {
 GameEngine.prototype.addEntity = function (entity) {
     console.log('added entity');
     this.entities.push(entity);
+    if(entity.control === true) this.controlEntity = entity;
 }
 
 GameEngine.prototype.draw = function () {

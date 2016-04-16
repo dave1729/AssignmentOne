@@ -47,6 +47,7 @@ function Background(game, spritesheet) {
     this.spritesheet = spritesheet;
     this.game = game;
     this.layer = 1;
+    this.control = false;
     this.ctx = game.ctx;
 };
 
@@ -65,6 +66,7 @@ function Foreground(game, spritesheet) {
     this.spritesheet = spritesheet;
     this.game = game;
     this.layer = 3;
+    this.control = false;
     this.ctx = game.ctx;
 };
 
@@ -80,9 +82,10 @@ function Turtle(game, spritesheet) {
     this.animation = new Animation(spritesheet, 4100/8, 353, 8, 0.17, 8, true, 0.5);
     this.x = 0;
     this.y = 135;
-    this.speed = 200;
+    this.speed = 0;
     this.game = game;
     this.layer = 4;
+    this.control = true;
     this.ctx = game.ctx;
 }
 
@@ -92,13 +95,21 @@ Turtle.prototype.draw = function () {
 
 Turtle.prototype.update = function () {
     if (this.animation.elapsedTime < this.animation.totalTime)
-        this.x += this.game.clockTick * this.speed;
+        //this.x += this.game.clockTick * this.speed;
     if (this.x > 800 && this.layer === 4)  {
     	this.x = -230;
     	this.layer = 2;
     }
     else if (this.x > 800 && this.layer === 2) {
     	this.x = -230;
+    	this.layer = 4;
+    }
+    else if (this.x < -250 && this.layer === 4){
+    	this.x = 790;
+    	this.layer = 2;
+    }
+    else if (this.x < -250 && this.layer === 2){
+    	this.x = 790;
     	this.layer = 4;
     }
     Entity.prototype.update.call(this);
@@ -112,6 +123,7 @@ function Rabbit(game, spritesheet) {
     this.ctx = game.ctx;
     this.layer = 4;
     this.scale;
+    this.control = false;
     Entity.call(this, game, 0, 28);
 }
 
