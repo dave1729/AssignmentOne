@@ -93,16 +93,27 @@ Turtle.prototype.draw = function () {
 Turtle.prototype.update = function () {
     if (this.animation.elapsedTime < this.animation.totalTime)
         this.x += this.game.clockTick * this.speed;
-    if (this.x > 800) this.x = -230;
+    //if (this.x > 800) this.x = -230;
+    
+    if (this.x > 800 && this.layer === 4)  {
+    	this.x = -230;
+    	this.layer = 2;
+    }
+    else if (this.x > 800 && this.layer === 2) {
+    	this.x = -230;
+    	this.layer = 4;
+    }
+    Entity.prototype.update.call(this);
 }
 
 
 // inheritance 
 function Rabbit(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 3618/6, 300, 6, 0.03, 6, true, 1);this.x = 0;
+    this.animation = new Animation(spritesheet, 3618/6, 300, 6, 0.03, 6, true, 1);
     this.speed = 650;
     this.ctx = game.ctx;
     this.layer = 4;
+    this.scale;
     Entity.call(this, game, 0, 28);
 }
 
@@ -110,13 +121,13 @@ Rabbit.prototype = new Entity();
 Rabbit.prototype.constructor = Rabbit;
 
 Rabbit.prototype.update = function () {
-    this.x += this.game.clockTick * this.speed;
-    if (this.x > 700)  {
-    	this.speed = -650;
+    this.x += this.game.clockTick * this.speed;   
+    if (this.x > 700 && this.layer === 4)  {
+    	this.x = -400;
     	this.layer = 2;
     }
-    else if (this.x < -400) {
-    	this.speed = 650;
+    else if (this.x > 700 && this.layer === 2) {
+    	this.x = -400;
     	this.layer = 4;
     }
     Entity.prototype.update.call(this);
