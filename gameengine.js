@@ -112,7 +112,16 @@ GameEngine.prototype.draw = function () {
             }
           );
     for (var i = 0; i < this.entities.length; i++) {
-        this.entities[i].draw(this.ctx);
+    	if(this.entities[i].layer === 2) {
+    		this.ctx.save();
+    		this.ctx.scale(-1, 1);
+    		this.ctx.translate(-760, 1);
+    		this.entities[i].draw(this.ctx);
+    		this.ctx.restore();
+    	}
+    	else {
+    		this.entities[i].draw(this.ctx);
+    	}
     }
     this.ctx.restore();
 }
