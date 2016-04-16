@@ -93,8 +93,6 @@ Turtle.prototype.draw = function () {
 Turtle.prototype.update = function () {
     if (this.animation.elapsedTime < this.animation.totalTime)
         this.x += this.game.clockTick * this.speed;
-    //if (this.x > 800) this.x = -230;
-    
     if (this.x > 800 && this.layer === 4)  {
     	this.x = -230;
     	this.layer = 2;
