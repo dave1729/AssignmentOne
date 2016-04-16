@@ -46,6 +46,7 @@ function Background(game, spritesheet) {
     this.y = 0;
     this.spritesheet = spritesheet;
     this.game = game;
+    this.layer = 1;
     this.ctx = game.ctx;
 };
 
@@ -63,6 +64,7 @@ function Foreground(game, spritesheet) {
     this.y = 0;
     this.spritesheet = spritesheet;
     this.game = game;
+    this.layer = 3;
     this.ctx = game.ctx;
 };
 
@@ -77,9 +79,10 @@ Foreground.prototype.update = function () {
 function Turtle(game, spritesheet) {
     this.animation = new Animation(spritesheet, 4100/8, 353, 8, 0.17, 8, true, 0.5);
     this.x = 0;
-    this.y = 100;
+    this.y = 135;
     this.speed = 200;
     this.game = game;
+    this.layer = 4;
     this.ctx = game.ctx;
 }
 
@@ -96,10 +99,11 @@ Turtle.prototype.update = function () {
 
 // inheritance 
 function Rabbit(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 3618/6, 300, 6, 0.03, 6, true, 1);
+    this.animation = new Animation(spritesheet, 3618/6, 300, 6, 0.03, 6, true, 1);this.x = 0;
     this.speed = 650;
     this.ctx = game.ctx;
-    Entity.call(this, game, 0, -10);
+    this.layer = 4;
+    Entity.call(this, game, 0, 28);
 }
 
 Rabbit.prototype = new Entity();
@@ -107,7 +111,14 @@ Rabbit.prototype.constructor = Rabbit;
 
 Rabbit.prototype.update = function () {
     this.x += this.game.clockTick * this.speed;
-    if (this.x > 800) this.x = -300;
+    if (this.x > 700)  {
+    	this.speed = -650;
+    	this.layer = 2;
+    }
+    else if (this.x < -400) {
+    	this.speed = 650;
+    	this.layer = 4;
+    }
     Entity.prototype.update.call(this);
 }
 
