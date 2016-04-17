@@ -157,11 +157,8 @@ Rabbit.prototype.draw = function () {
 }
 
 
-AM.queueDownload("./img/RobotUnicorn.png");
 AM.queueDownload("./img/rabbit.png");
-AM.queueDownload("./img/guy.jpg");
 AM.queueDownload("./img/turtle_sheet.png");
-AM.queueDownload("./img/rabbit.png");
 AM.queueDownload("./img/forrest.png");
 AM.queueDownload("./img/bushes.png");
 
@@ -176,8 +173,6 @@ AM.downloadAll(function () {
     gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/forrest.png")));
     gameEngine.addEntity(new Turtle(gameEngine, AM.getAsset("./img/turtle_sheet.png")));
     gameEngine.addEntity(new Rabbit(gameEngine, AM.getAsset("./img/rabbit.png")));
-    //gameEngine.addEntity(new Rabbit(gameEngine, AM.getAsset("./img/rabbit.png")));
-    //gameEngine.addEntity(new Guy(gameEngine, AM.getAsset("./img/guy.jpg")));
     gameEngine.addEntity(new Foreground(gameEngine, AM.getAsset("./img/bushes.png")));
 
     ctx.drawImage(img,
