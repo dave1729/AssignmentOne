@@ -62,7 +62,7 @@ Background.prototype.update = function () {
 //no inheritance
 function Foreground(game, spritesheet) {
     this.x = 0;
-    this.y = 0;
+    this.y = 30;
     this.spritesheet = spritesheet;
     this.game = game;
     this.layer = 3;
@@ -72,7 +72,7 @@ function Foreground(game, spritesheet) {
 
 Foreground.prototype.draw = function () {
     this.ctx.drawImage(this.spritesheet,
-                   this.x, this.y + 30);
+                   this.x, this.y);
 };
 
 Foreground.prototype.update = function () {
@@ -85,6 +85,7 @@ function Turtle(game, spritesheet) {
     this.speed = 0;
     this.game = game;
     this.layer = 4;
+    this.facingLeft = false;
     this.control = true;
     this.ctx = game.ctx;
 }
@@ -95,21 +96,25 @@ Turtle.prototype.draw = function () {
 
 Turtle.prototype.update = function () {
     if (this.animation.elapsedTime < this.animation.totalTime)
-        //this.x += this.game.clockTick * this.speed;
+        this.x += this.game.clockTick * this.speed;
     if (this.x > 800 && this.layer === 4)  {
-    	this.x = -230;
+    	this.x = -250;
+    	this.facingLeft = true;
     	this.layer = 2;
     }
     else if (this.x > 800 && this.layer === 2) {
-    	this.x = -230;
+    	this.x = -250;
+    	this.facingLeft = false;
     	this.layer = 4;
     }
     else if (this.x < -250 && this.layer === 4){
-    	this.x = 790;
+    	this.x = 800;
+    	this.facingLeft = true;
     	this.layer = 2;
     }
     else if (this.x < -250 && this.layer === 2){
-    	this.x = 790;
+    	this.x = 800;
+    	this.facingLeft = false;
     	this.layer = 4;
     }
     Entity.prototype.update.call(this);
@@ -121,6 +126,7 @@ function Rabbit(game, spritesheet) {
     this.animation = new Animation(spritesheet, 3618/6, 300, 6, 0.03, 6, true, 1);
     this.speed = 650;
     this.ctx = game.ctx;
+    this.facingLeft = false;
     this.layer = 4;
     this.scale;
     this.control = false;
@@ -134,10 +140,12 @@ Rabbit.prototype.update = function () {
     this.x += this.game.clockTick * this.speed;   
     if (this.x > 700 && this.layer === 4)  {
     	this.x = -400;
+    	this.facingLeft = true;
     	this.layer = 2;
     }
     else if (this.x > 700 && this.layer === 2) {
     	this.x = -400;
+    	this.facingLeft = false;
     	this.layer = 4;
     }
     Entity.prototype.update.call(this);
