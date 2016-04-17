@@ -11,6 +11,11 @@ window.requestAnimFrame = (function () {
 
 function GameEngine() {
     this.entities = [];
+    this.controlEntity = null;
+    this.w = false;
+    this.s = false;
+    this.a = false;
+    this.d = false;
     this.ctx = null;
     this.surfaceWidth = null;
     this.surfaceHeight = null;
@@ -80,10 +85,24 @@ GameEngine.prototype.startInput = function () {
     this.ctx.canvas.addEventListener("keydown", function (e) {
         console.log(e);
         console.log("Key Down Event - Char " + e.code + " Code " + e.keyCode);
+        if(e.which === 87) {
+        	that.w = true;
+        }
+        else if(e.which === 83) {
+        	that.controlEntity.speed = that.controlEntity.speed * 2;
+        	that.s = true;
+        }
+        else if(e.which === 65) {
+        	that.controlEntity.speed = -250;
+        	that.a = true;
+        }	
+        else if(e.which === 68) {
+        	that.controlEntity.speed = 250;
+        	that.d = true;
+        }	
     }, false);
 
     this.ctx.canvas.addEventListener("keypress", function (e) {
-        if (e.code === "KeyD") that.d = true;
         that.chars[e.code] = true;
         console.log(e);
         console.log("Key Pressed Event - Char " + e.charCode + " Code " + e.keyCode);
@@ -92,6 +111,23 @@ GameEngine.prototype.startInput = function () {
     this.ctx.canvas.addEventListener("keyup", function (e) {
         console.log(e);
         console.log("Key Up Event - Char " + e.code + " Code " + e.keyCode);
+        if(e.which === 87) {
+        	that.w = false;
+        }
+        else if(e.which === 83) {
+
+        	that.s = false;
+        }
+        else if(e.which === 65) {
+        	that.a = false;
+        }	
+        else if(e.which === 68) {
+        	that.d = false;
+        }	
+        
+        if(!(that.w || that.s || that.a || that.d)) {
+        	that.controlEntity.speed = 0;
+        }
     }, false);
 
     console.log('Input started');
@@ -100,6 +136,7 @@ GameEngine.prototype.startInput = function () {
 GameEngine.prototype.addEntity = function (entity) {
     console.log('added entity');
     this.entities.push(entity);
+    if(entity.control === true) this.controlEntity = entity;
 }
 
 GameEngine.prototype.draw = function () {
@@ -112,10 +149,17 @@ GameEngine.prototype.draw = function () {
             }
           );
     for (var i = 0; i < this.entities.length; i++) {
+<<<<<<< HEAD
     	if(this.entities[i].layer === 2) {
     		this.ctx.save();
     		this.ctx.scale(-1, 1);
     		this.ctx.translate(-760, 1);
+=======
+    	if(this.entities[i].facingLeft === true) {
+    		this.ctx.save();
+    		this.ctx.scale(-0.85, 0.85);
+    		this.ctx.translate(-820, 20);
+>>>>>>> refs/heads/gh-pages
     		this.entities[i].draw(this.ctx);
     		this.ctx.restore();
     	}

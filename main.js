@@ -47,6 +47,7 @@ function Background(game, spritesheet) {
     this.spritesheet = spritesheet;
     this.game = game;
     this.layer = 1;
+    this.control = false;
     this.ctx = game.ctx;
 };
 
@@ -61,16 +62,17 @@ Background.prototype.update = function () {
 //no inheritance
 function Foreground(game, spritesheet) {
     this.x = 0;
-    this.y = 0;
+    this.y = 30;
     this.spritesheet = spritesheet;
     this.game = game;
     this.layer = 3;
+    this.control = false;
     this.ctx = game.ctx;
 };
 
 Foreground.prototype.draw = function () {
     this.ctx.drawImage(this.spritesheet,
-                   this.x, this.y + 30);
+                   this.x, this.y);
 };
 
 Foreground.prototype.update = function () {
@@ -80,9 +82,11 @@ function Turtle(game, spritesheet) {
     this.animation = new Animation(spritesheet, 4100/8, 353, 8, 0.17, 8, true, 0.5);
     this.x = 0;
     this.y = 135;
-    this.speed = 200;
+    this.speed = 0;
     this.game = game;
     this.layer = 4;
+    this.facingLeft = false;
+    this.control = true;
     this.ctx = game.ctx;
 }
 
@@ -93,6 +97,7 @@ Turtle.prototype.draw = function () {
 Turtle.prototype.update = function () {
     if (this.animation.elapsedTime < this.animation.totalTime)
         this.x += this.game.clockTick * this.speed;
+<<<<<<< HEAD
     //if (this.x > 800) this.x = -230;
     
     if (this.x > 800 && this.layer === 4)  {
@@ -101,6 +106,26 @@ Turtle.prototype.update = function () {
     }
     else if (this.x > 800 && this.layer === 2) {
     	this.x = -230;
+=======
+    if (this.x > 800 && this.layer === 4)  {
+    	this.x = -250;
+    	this.facingLeft = true;
+    	this.layer = 2;
+    }
+    else if (this.x > 800 && this.layer === 2) {
+    	this.x = -250;
+    	this.facingLeft = false;
+    	this.layer = 4;
+    }
+    else if (this.x < -250 && this.layer === 4){
+    	this.x = 800;
+    	this.facingLeft = true;
+    	this.layer = 2;
+    }
+    else if (this.x < -250 && this.layer === 2){
+    	this.x = 800;
+    	this.facingLeft = false;
+>>>>>>> refs/heads/gh-pages
     	this.layer = 4;
     }
     Entity.prototype.update.call(this);
@@ -112,8 +137,13 @@ function Rabbit(game, spritesheet) {
     this.animation = new Animation(spritesheet, 3618/6, 300, 6, 0.03, 6, true, 1);
     this.speed = 650;
     this.ctx = game.ctx;
+    this.facingLeft = false;
     this.layer = 4;
     this.scale;
+<<<<<<< HEAD
+=======
+    this.control = false;
+>>>>>>> refs/heads/gh-pages
     Entity.call(this, game, 0, 28);
 }
 
@@ -124,10 +154,18 @@ Rabbit.prototype.update = function () {
     this.x += this.game.clockTick * this.speed;   
     if (this.x > 700 && this.layer === 4)  {
     	this.x = -400;
+<<<<<<< HEAD
+=======
+    	this.facingLeft = true;
+>>>>>>> refs/heads/gh-pages
     	this.layer = 2;
     }
     else if (this.x > 700 && this.layer === 2) {
     	this.x = -400;
+<<<<<<< HEAD
+=======
+    	this.facingLeft = false;
+>>>>>>> refs/heads/gh-pages
     	this.layer = 4;
     }
     Entity.prototype.update.call(this);
