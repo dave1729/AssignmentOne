@@ -142,24 +142,20 @@ GameEngine.prototype.addEntity = function (entity) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.surfaceWidth, this.surfaceHeight);
     this.ctx.save();
+    
+    //Sort entities by layer
     this.entities.sort(
             function(x, y)
             {
             	return x.layer - y.layer;
             }
           );
+    
     for (var i = 0; i < this.entities.length; i++) {
-<<<<<<< HEAD
-    	if(this.entities[i].layer === 2) {
-    		this.ctx.save();
-    		this.ctx.scale(-1, 1);
-    		this.ctx.translate(-760, 1);
-=======
     	if(this.entities[i].facingLeft === true) {
     		this.ctx.save();
     		this.ctx.scale(-0.85, 0.85);
     		this.ctx.translate(-820, 20);
->>>>>>> refs/heads/gh-pages
     		this.entities[i].draw(this.ctx);
     		this.ctx.restore();
     	}
