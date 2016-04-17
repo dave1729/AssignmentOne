@@ -88,7 +88,7 @@ GameEngine.prototype.startInput = function () {
         if(e.which === 87) {
         	that.w = true;
         }
-        else if(e.which === 83) {
+        else if(e.which === 83 && Math.abs(that.controlEntity.speed) < 16000) {
         	that.controlEntity.speed = that.controlEntity.speed * 2;
         	that.s = true;
         }
