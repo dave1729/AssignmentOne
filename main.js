@@ -82,7 +82,15 @@ function Turtle(game, spritesheet) {
     this.animation = new Animation(spritesheet, 4100/8, 353, 8, 0.17, 8, true, 0.5);
     this.x = 0;
     this.y = 135;
+    this.w = false;
+    this.s = false;
+    this.a = false;
+    this.d = false;
     this.speed = 0;
+    this.jumping = false;
+    this.jumpStartTime = 0;
+    this.jumpSpeed = 0;
+    this.gravity = 1500;
     this.game = game;
     this.layer = 4;
     this.facingLeft = false;
@@ -91,31 +99,63 @@ function Turtle(game, spritesheet) {
 }
 
 Turtle.prototype.draw = function () {
-    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
+	this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
 }
 
 Turtle.prototype.update = function () {
     if (this.animation.elapsedTime < this.animation.totalTime)
         this.x += this.game.clockTick * this.speed;
-    if (this.x > 800 && this.layer === 4)  {
-    	this.x = -250;
+    
+    if (this.jumping) {
+    	var time = this.game.timer.gameTime - this.jumpStartTime;
+    	this.y = 135 - this.jumpSpeed * time + 0.5 * this.gravity * time * time;
+    	if(this.y >= 135) {
+    		this.jumping = false;
+    		this.y = 135;
+    	}
+	}
+    
+    if(this.w && !this.jumping) {
+    	this.jumping = true;
+    	this.y -= 1;
+    	this.jumpStartTime = this.game.timer.gameTime;
+    	this.jumpSpeed = 500;
+    }
+    else if(this.s && Math.abs(this.speed) < 16000) {
+    	this.speed = this.speed * 2;
+    	this.s = false;
+    }
+    else if(this.a && this.speed >= 0) {
+    	this.speed = -250;
+    }	
+    else if(this.d && this.speed <= 0) {
+    	this.speed = 250;
+    }	
+    
+    if (this.x > 750 && this.layer === 4)  {
+    	this.x = -300;
     	this.facingLeft = true;
     	this.layer = 2;
     }
-    else if (this.x > 800 && this.layer === 2) {
-    	this.x = -250;
+    else if (this.x > 750 && this.layer === 2) {
+    	this.x = -300;
     	this.facingLeft = false;
     	this.layer = 4;
     }
-    else if (this.x < -250 && this.layer === 4){
-    	this.x = 800;
+    else if (this.x < -300 && this.layer === 4){
+    	this.x = 750;
     	this.facingLeft = true;
     	this.layer = 2;
     }
-    else if (this.x < -250 && this.layer === 2){
-    	this.x = 800;
+    else if (this.x < -300 && this.layer === 2){
+    	this.x = 750;
     	this.facingLeft = false;
     	this.layer = 4;
+    }
+
+    
+    if(!(this.w || this.s || this.a || this.d)) {
+    	this.speed = 0;
     }
     Entity.prototype.update.call(this);
 }
@@ -139,12 +179,12 @@ Rabbit.prototype.constructor = Rabbit;
 Rabbit.prototype.update = function () {
     this.x += this.game.clockTick * this.speed;   
     if (this.x > 700 && this.layer === 4)  {
-    	this.x = -400;
+    	this.x = -450;
     	this.facingLeft = true;
     	this.layer = 2;
     }
     else if (this.x > 700 && this.layer === 2) {
-    	this.x = -400;
+    	this.x = -450;
     	this.facingLeft = false;
     	this.layer = 4;
     }

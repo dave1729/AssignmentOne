@@ -1,3 +1,4 @@
+
 window.requestAnimFrame = (function () {
     return window.requestAnimationFrame ||
             window.webkitRequestAnimationFrame ||
@@ -12,10 +13,6 @@ window.requestAnimFrame = (function () {
 function GameEngine() {
     this.entities = [];
     this.controlEntity = null;
-    this.w = false;
-    this.s = false;
-    this.a = false;
-    this.d = false;
     this.ctx = null;
     this.surfaceWidth = null;
     this.surfaceHeight = null;
@@ -86,19 +83,16 @@ GameEngine.prototype.startInput = function () {
         console.log(e);
         console.log("Key Down Event - Char " + e.code + " Code " + e.keyCode);
         if(e.which === 87) {
-        	that.w = true;
+        	that.controlEntity.w = true;
         }
-        else if(e.which === 83 && Math.abs(that.controlEntity.speed) < 16000) {
-        	that.controlEntity.speed = that.controlEntity.speed * 2;
-        	that.s = true;
+        else if(e.which === 83) {
+        	that.controlEntity.s = true;
         }
         else if(e.which === 65) {
-        	that.controlEntity.speed = -250;
-        	that.a = true;
+        	that.controlEntity.a = true;
         }	
         else if(e.which === 68) {
-        	that.controlEntity.speed = 250;
-        	that.d = true;
+        	that.controlEntity.d = true;
         }	
     }, false);
 
@@ -112,22 +106,18 @@ GameEngine.prototype.startInput = function () {
         console.log(e);
         console.log("Key Up Event - Char " + e.code + " Code " + e.keyCode);
         if(e.which === 87) {
-        	that.w = false;
+        	that.controlEntity.w = false;
         }
         else if(e.which === 83) {
 
-        	that.s = false;
+        	that.controlEntity.s = false;
         }
         else if(e.which === 65) {
-        	that.a = false;
+        	that.controlEntity.a = false;
         }	
         else if(e.which === 68) {
-        	that.d = false;
+        	that.controlEntity.d = false;
         }	
-        
-        if(!(that.w || that.s || that.a || that.d)) {
-        	that.controlEntity.speed = 0;
-        }
     }, false);
 
     console.log('Input started');
@@ -154,7 +144,7 @@ GameEngine.prototype.draw = function () {
     for (var i = 0; i < this.entities.length; i++) {
     	if(this.entities[i].facingLeft === true) {
     		this.ctx.save();
-    		this.ctx.scale(-0.85, 0.85);
+    		this.ctx.scale(-0.80, 0.80);
     		this.ctx.translate(-820, 20);
     		this.entities[i].draw(this.ctx);
     		this.ctx.restore();
