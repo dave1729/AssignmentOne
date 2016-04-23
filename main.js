@@ -112,6 +112,7 @@ function Turtle(game, spritesheet) {
     this.gravity = 1500;
     this.game = game;
     this.layer = 4;
+    this.laps = 0;
     this.facingLeft = false;
     this.control = true;
     this.ctx = game.ctx;
@@ -155,6 +156,9 @@ Turtle.prototype.update = function () {
     	this.x = -300;
     	this.facingLeft = true;
     	this.layer = 2;
+    	if(++this.laps % 100 === 0) {
+    		alert("Wow! " + this.laps + " laps! That'll show that stupid hair!");
+    	}
     }
     else if (this.x > 750 && this.layer === 2) {
     	this.x = -300;
@@ -188,6 +192,7 @@ function Rabbit(game, spritesheet) {
     this.facingLeft = false;
     this.jumping = false;
     this.layer = 4;
+    this.laps = 0;
     this.scale;
     this.control = false;
     Entity.call(this, game, 0, 28);
@@ -202,6 +207,7 @@ Rabbit.prototype.update = function () {
     	this.x = -450;
     	this.facingLeft = true;
     	this.layer = 2;
+    	this.laps += 1;
     }
     else if (this.x > 700 && this.layer === 2) {
     	this.x = -450;
