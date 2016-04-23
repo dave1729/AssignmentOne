@@ -13,7 +13,7 @@ function Animation(spriteSheet, frameWidth, frameHeight, sheetWidth, frameDurati
     this.scale = scale;
 }
 
-Animation.prototype.drawFrame = function (tick, ctx, x, y) {
+Animation.prototype.drawFrame = function (tick, ctx, x, y, entity) {
     this.elapsedTime += tick;
     if (this.isDone()) {
         if (this.loop) this.elapsedTime = 0;
@@ -22,8 +22,27 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
     var xindex = 0;
     var yindex = 0;
     xindex = frame % this.sheetWidth;
-    yindex = Math.floor(frame / this.sheetWidth);
+    
 
+    if(entity.speed > 0) {
+    	yindex = Math.floor(frame / this.sheetWidth);
+        if(entity.jumping) {
+        	xindex = 1;
+        	yindex = 2;
+        }
+    }
+    else if(entity.speed < 0) {
+    	yindex = 1;
+        if(entity.jumping) {
+        	xindex = 2;
+        	yindex = 2;
+        }
+    }
+    else {
+    	xindex = 0;
+    	yindex = 2;
+    }
+    
     ctx.drawImage(this.spriteSheet,
                  xindex * this.frameWidth, yindex * this.frameHeight,  // source from sheet
                  this.frameWidth, this.frameHeight,
@@ -99,7 +118,7 @@ function Turtle(game, spritesheet) {
 }
 
 Turtle.prototype.draw = function () {
-	this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
+	this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y, this);
 }
 
 Turtle.prototype.update = function () {
@@ -163,10 +182,11 @@ Turtle.prototype.update = function () {
 
 // inheritance 
 function Rabbit(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 3618/6, 300, 6, 0.03, 6, true, 1);
+    this.animation = new Animation(spritesheet, 201, 300, 6, 0.03, 6, true, 1);
     this.speed = 650;
     this.ctx = game.ctx;
     this.facingLeft = false;
+    this.jumping = false;
     this.layer = 4;
     this.scale;
     this.control = false;
@@ -192,7 +212,7 @@ Rabbit.prototype.update = function () {
 }
 
 Rabbit.prototype.draw = function () {
-    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
+    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y, this);
     Entity.prototype.draw.call(this);
 }
 
