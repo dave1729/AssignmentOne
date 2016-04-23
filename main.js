@@ -41,6 +41,10 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y, entity) {
     else {
     	xindex = 0;
     	yindex = 2;
+        if(entity.jumping) {
+        	xindex = 1;
+        	yindex = 2;
+        }
     }
     
     ctx.drawImage(this.spriteSheet,
