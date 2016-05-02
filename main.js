@@ -105,10 +105,6 @@ function Turtle(game, spritesheet) {
     this.animation = new Animation(spritesheet, 4100/8, 353, 8, 0.17, 8, true, 0.5);
     this.x = 0;
     this.y = 135;
-    this.w = false;
-    this.s = false;
-    this.a = false;
-    this.d = false;
     this.speed = 0;
     this.jumping = false;
     this.jumpStartTime = 0;
@@ -120,6 +116,21 @@ function Turtle(game, spritesheet) {
     this.facingLeft = false;
     this.control = true;
     this.ctx = game.ctx;
+    this.game.inputmanager.addInput("up", 'w');
+    this.game.inputmanager.addInput("down", 's');
+    this.game.inputmanager.addInput("left", 'a');
+    this.game.inputmanager.addInput("right", 'd');
+    this.game.inputmanager.addGroup();
+    this.game.inputmanager.addInput("up", 'i');
+    this.game.inputmanager.addInput("down", 'k');
+    this.game.inputmanager.addInput("left", 'j');
+    this.game.inputmanager.addInput("right", 'l');
+    this.game.inputmanager.addGroup();
+    this.game.inputmanager.addInput("up", 'm');
+    this.game.inputmanager.addInput("down", 'q');
+    this.game.inputmanager.addInput("left", 'z');
+    this.game.inputmanager.addInput("right", 'p');
+    this.game.inputmanager.iterate();
 }
 
 Turtle.prototype.draw = function () {
@@ -139,20 +150,20 @@ Turtle.prototype.update = function () {
     	}
 	}
     
-    if(this.w && !this.jumping) {
+    if(this.game.inputmanager.checkInput("up") && !this.jumping) {
     	this.jumping = true;
     	this.y -= 1;
     	this.jumpStartTime = this.game.timer.gameTime;
     	this.jumpSpeed = 500;
     }
-    else if(this.s && Math.abs(this.speed) < 16000) {
+    else if(this.game.inputmanager.checkInput("down") && Math.abs(this.speed) < 16000) {
     	this.speed = this.speed * 2;
-    	this.s = false;
+    	this.game.inputmanager.setFalse("down");
     }
-    else if(this.a && this.speed >= 0) {
+    else if(this.game.inputmanager.checkInput("left") && this.speed >= 0) {
     	this.speed = -250;
     }	
-    else if(this.d && this.speed <= 0) {
+    else if(this.game.inputmanager.checkInput("right") && this.speed <= 0) {
     	this.speed = 250;
     }	
     
@@ -160,8 +171,12 @@ Turtle.prototype.update = function () {
     	this.x = -300;
     	this.facingLeft = true;
     	this.layer = 2;
-    	if(++this.laps % 100 === 0) {
-    		alert("Wow! " + this.laps + " laps! That'll show that stupid hair!");
+    	if(++this.laps % 25 === 0) {
+    		alert("Wow! " + this.laps + " laps! Now Lets try new controls... Can you find them?");
+			this.game.inputmanager.setAllFalse();
+			this.game.inputmanager.iterate();
+			this.game.inputmanager.setAllFalse();
+			this.speed = 0;
     	}
     }
     else if (this.x > 750 && this.layer === 2) {
@@ -181,7 +196,10 @@ Turtle.prototype.update = function () {
     }
 
     
-    if(!(this.w || this.s || this.a || this.d)) {
+    if(!(this.game.inputmanager.checkInput("up") ||
+    this.game.inputmanager.checkInput("down") ||
+    this.game.inputmanager.checkInput("left") ||
+    this.game.inputmanager.checkInput("right"))) {
     	this.speed = 0;
     }
     Entity.prototype.update.call(this);
@@ -226,7 +244,6 @@ Rabbit.prototype.draw = function () {
     Entity.prototype.draw.call(this);
 }
 
-
 AM.queueDownload("./img/rabbit.png");
 AM.queueDownload("./img/turtle_sheet.png");
 AM.queueDownload("./img/forrest.png");
@@ -245,11 +262,11 @@ AM.downloadAll(function () {
     gameEngine.addEntity(new Rabbit(gameEngine, AM.getAsset("./img/rabbit.png")));
     gameEngine.addEntity(new Foreground(gameEngine, AM.getAsset("./img/bushes.png")));
 
-    ctx.drawImage(img,
-            0, 0,  // source from sheet
-            189, 230, // width and height of source
-            250, 250, // destination coordinates
-            95, 115); // destination width and height
+    // ctx.drawImage(img,
+            // 0, 0,  // source from sheet
+            // 189, 230, // width and height of source
+            // 250, 250, // destination coordinates
+            // 95, 115); // destination width and height
     
     console.log("All Done!");
 });
